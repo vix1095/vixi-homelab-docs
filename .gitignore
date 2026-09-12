@@ -1,0 +1,27 @@
+# Archivos temporales
+*.tmp
+*.log
+*.swp
+*.bak
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secretos y variables
+.env
+.env.*
+*.secret
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Capturas temporales sin revisar
+capturas/privadas/
+AGENTS.md
