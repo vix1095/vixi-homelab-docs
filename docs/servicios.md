@@ -136,7 +136,8 @@ Las pruebas realizadas confirman que este entorno puede escribir donde está aut
 | Estado | Elemento |
 |---|---|
 | 🟡 En proceso | Monitorización avanzada, revisión de métricas de red y mejora de alertas. |
-| 🟡 En proceso | Retirada del sistema de copias anterior basado en SMB e integración de Kopia con las alertas centralizadas. |
+| 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
+| 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | ⬜ Pendiente | Proxy inverso. |
 | ⬜ Pendiente | HTTPS para la publicación del porfolio. |

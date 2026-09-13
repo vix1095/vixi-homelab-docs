@@ -111,7 +111,8 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 ### 🟡 En proceso
 
 - Porfolio profesional.
-- Retirada progresiva del sistema de copias anterior basado en SMB e integración del nuevo backup con las alertas centralizadas.
+- Retirada progresiva del sistema de copias anterior basado en SMB.
+- Integración del estado de Kopia con las alertas centralizadas.
 - Monitorización avanzada, alertas y revisión de métricas de red.
 - Arquitectura de delegación, especialización y futuros subagentes de Hermes.
 

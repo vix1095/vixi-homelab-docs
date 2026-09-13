@@ -153,7 +153,8 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 | ✅ Implementado | Primera versión de la documentación pública del homelab. |
 | ✅ Implementado | Copias de seguridad cifradas y versionadas con una restauración real validada. |
 | 🟡 En proceso | Desarrollo y revisión del porfolio profesional. |
-| 🟡 En proceso | Retirada del sistema de copias anterior basado en SMB e integración de Kopia con las alertas centralizadas. |
+| 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
+| 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Revisión de métricas de red y ampliación de alertas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | ⬜ Pendiente | Proxy inverso. |
