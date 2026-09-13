@@ -6,10 +6,11 @@ La mayoría de servicios del homelab se ejecutan con Docker y Docker Compose. Op
 
 | Área | Componentes | Estado | Función |
 |---|---|---|---|
-| Infraestructura | Pi-hole, WireGuard, wg-easy y Uptime Kuma | ✅ Implementado | Red local, acceso remoto privado y comprobación de disponibilidad. |
+| Infraestructura | Pi-hole, WireGuard, wg-easy, Nginx Proxy Manager y Uptime Kuma | ✅ Implementado | DNS interno, acceso remoto privado, proxy inverso y comprobación de disponibilidad. |
 | Multimedia | Ruddarr, Radarr, Sonarr, Jackett, qBittorrent, Cloudflare WARP y Plex | ✅ Implementado | Gestionar las peticiones, buscar contenido, descargarlo, organizarlo y reproducirlo. |
 | Monitorización | Prometheus, Grafana, Node Exporter, cAdvisor y smartctl-exporter | ✅ Implementado | Recoger y mostrar métricas del host, los contenedores y los discos. |
 | Copias de seguridad | Kopia y Cloudflare R2 | ✅ Implementado | Generar copias cifradas, versionadas y deduplicadas en almacenamiento remoto. |
+| Publicación web | Porfolio, Gunicorn y cloudflared | ✅ Implementado | Publicar el porfolio mediante Cloudflare Tunnel sin abrir puertos web en el router. |
 | Administración | Portainer, Homepage, Samba y Watchtower | ✅ Implementado | Administrar contenedores, acceder a los servicios, compartir datos en la LAN y aplicar actualizaciones autorizadas. |
 | Servicios auxiliares | docker-socket-proxy y vixi-status | ✅ Implementado | Consultar el estado de Docker y del homelab sin dar acceso directo al socket. |
 | Seguridad del sistema | UFW, Fail2ban y AppArmor | ✅ Implementado | Controlar accesos y aplicar protección al host y a los contenedores relevantes. |
@@ -20,7 +21,15 @@ La mayoría de servicios del homelab se ejecutan con Docker y Docker Compose. Op
 
 ### Pi-hole
 
-Pi-hole forma parte de los servicios base de la red local y se encarga del filtrado DNS para sus clientes.
+Pi-hole forma parte de los servicios base de la red local. Se encarga del filtrado DNS y también resuelve los nombres internos de los servicios para los clientes que lo utilizan.
+
+### Nginx Proxy Manager
+
+Nginx Proxy Manager funciona como proxy inverso interno. Centraliza el acceso a las interfaces web, fuerza HTTP a HTTPS y utiliza certificados válidos emitidos mediante Let's Encrypt y el DNS Challenge de Cloudflare. Este método permite validar y renovar los certificados sin abrir puertos web en el router.
+
+Los servicios integrados comparten la red Docker `proxy` y mantienen sus redes originales cuando las necesitan. Otros conservan su arquitectura específica y Nginx Proxy Manager llega a ellos sin conectarlos directamente a esa red.
+
+El porfolio también puede gestionarse desde esta capa interna, pero su publicación en Internet no pasa por Nginx Proxy Manager.
 
 ### WireGuard y wg-easy
 
@@ -63,6 +72,12 @@ qBittorrent recibe las descargas desde Radarr y Sonarr. Su tráfico mantiene sal
 ### Plex
 
 Plex trabaja con las bibliotecas que Radarr y Sonarr ya han importado y organizado. No interviene en la búsqueda ni en la descarga.
+
+## Porfolio y Cloudflare Tunnel
+
+El porfolio está desplegado en Docker y utiliza Gunicorn. El contenedor se ejecuta sin privilegios de root, con el sistema de archivos en modo de solo lectura, almacenamiento temporal separado, capabilities innecesarias eliminadas, `no-new-privileges`, límites de recursos y un healthcheck propio.
+
+cloudflared también se ejecuta en Docker con aislamiento y mínimo privilegio. No publica puertos en el host y conecta Cloudflare Tunnel con el porfolio mediante la red Docker compartida. Esta es la ruta pública definitiva; Nginx Proxy Manager continúa gestionando el acceso interno.
 
 ## Monitorización
 
@@ -139,8 +154,7 @@ Las pruebas realizadas confirman que este entorno puede escribir donde está aut
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
 | 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
-| ⬜ Pendiente | Proxy inverso. |
-| ⬜ Pendiente | HTTPS para la publicación del porfolio. |
+| 🟡 En proceso | Retirada progresiva de los puertos web directos de otros servicios internos. |
 | ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
 | ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
 

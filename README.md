@@ -9,14 +9,15 @@ Aquí explico cómo está organizado y por qué tomé algunas decisiones técnic
 | Estado | Área | Situación |
 |---|---|---|
 | ✅ Implementado | Plataforma base | Servidor físico con Ubuntu Server 24.04 LTS, almacenamiento separado para el sistema y los datos, Docker y Docker Compose. |
-| ✅ Implementado | Infraestructura | Pi-hole, WireGuard, Portainer, Uptime Kuma y actualizaciones automáticas solo para servicios seleccionados. |
+| ✅ Implementado | Infraestructura | Pi-hole con DNS interno, WireGuard, Nginx Proxy Manager, Portainer, Uptime Kuma y actualizaciones automáticas solo para servicios seleccionados. |
+| ✅ Implementado | Acceso web interno | Los servicios integrados usan nombres internos y HTTPS válido sin abrir nuevos puertos en el router. |
 | ✅ Implementado | Multimedia | Gestión, descarga, organización y reproducción multimedia mediante un flujo automatizado. |
 | ✅ Implementado | Monitorización | Prometheus y sus exportadores recogen métricas del host, los contenedores y el estado SMART. Grafana las muestra en paneles. |
 | ✅ Implementado | Seguridad | Firewall, protección de SSH, AppArmor, acceso remoto privado y servicios de red local restringidos. |
 | ✅ Implementado | Automatización asistida | OpenClaw con Vixi como agente principal. Codex nativo se ejecuta con los permisos del usuario principal, y Vixi Web tiene además un entorno Codex aislado limitado a espacios de trabajo autorizados. |
 | ✅ Implementado | Documentación v1 | La primera versión pública está cerrada y revisada. Seguirá evolucionando junto al homelab. |
 | 🟡 En proceso | Hermes | Ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue en desarrollo. |
-| 🟡 En proceso | Porfolio | El porfolio profesional sigue en desarrollo y revisión. |
+| ✅ Implementado | Porfolio | Está desplegado en producción mediante Cloudflare Tunnel, con HTTPS obligatorio, TLS moderno y HSTS conservador. |
 | ✅ Implementado | Copias de seguridad | Kopia genera copias cifradas y versionadas en almacenamiento remoto. La restauración real ya se ha validado. |
 | 🟡 En proceso | Monitorización avanzada | Todavía tengo que revisar las métricas de red y completar las alertas y notificaciones. |
 
@@ -67,10 +68,11 @@ flowchart LR
 ## Tecnologías utilizadas
 
 - **Sistema y contenedores:** Ubuntu Server 24.04 LTS, Docker y Docker Compose.
-- **Infraestructura:** Pi-hole, WireGuard, wg-easy, Portainer, Uptime Kuma y Watchtower.
+- **Infraestructura:** Pi-hole, WireGuard, wg-easy, Nginx Proxy Manager, Portainer, Uptime Kuma y Watchtower.
 - **Multimedia:** Plex, Sonarr, Radarr, Jackett, qBittorrent, Ruddarr y Cloudflare WARP.
 - **Monitorización:** Prometheus, Grafana, Node Exporter, cAdvisor y smartctl-exporter.
 - **Copias de seguridad:** Kopia y Cloudflare R2.
+- **Publicación del porfolio:** Gunicorn, Cloudflare Tunnel y cloudflared.
 - **Seguridad:** UFW, Fail2ban, AppArmor y Samba con acceso restringido a la red local.
 - **Agentes y desarrollo:** OpenClaw, Vixi, Hermes y Codex.
 
@@ -78,6 +80,9 @@ flowchart LR
 
 - **Contenedores como plataforma principal:** uso Docker para mantener los servicios separados, organizarlos mejor y simplificar el mantenimiento.
 - **Acceso remoto privado:** utilizo una conexión privada para entrar desde fuera. Los servicios administrativos no están pensados para exponerse directamente a Internet.
+- **Acceso web interno:** Pi-hole resuelve los nombres internos y Nginx Proxy Manager centraliza el acceso mediante HTTPS válido.
+- **Publicación separada:** el porfolio es el único servicio público y utiliza Cloudflare Tunnel. Nginx Proxy Manager sigue reservado para el acceso interno.
+- **Superficie pública acotada:** el acceso directo de producción desde la LAN ya está retirado. Los servicios internos y administrativos continúan fuera de Internet.
 - **Actualizaciones selectivas:** automatizo las actualizaciones de algunos servicios de monitorización. Los componentes críticos o sensibles los actualizo manualmente.
 - **Entorno de trabajo restringido:** Codex nativo se ejecuta con los permisos del usuario principal. Para Vixi Web mantengo otro entorno Codex aislado, ejecutado con un usuario dedicado, que solo puede trabajar sobre los espacios autorizados.
 - **Documentación saneada:** cuando necesito mostrar una configuración de red, uso nombres genéricos como `SERVER_LAN_IP`, `LAN_SUBNET` y `VPN_SUBNET`.
@@ -106,20 +111,20 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 - Acceso remoto privado y controles básicos de seguridad.
 - OpenClaw con Vixi, Codex nativo con los permisos del usuario principal y un entorno Codex aislado para Vixi Web.
 - Copias de seguridad cifradas y versionadas con una restauración real validada.
+- DNS interno, proxy inverso y HTTPS para los servicios web integrados en la red local.
+- Porfolio publicado en [vixstack.es](https://vixstack.es) mediante Cloudflare Tunnel, sin *port forwarding* web.
 - Primera versión de la documentación pública del homelab.
 
 ### 🟡 En proceso
 
-- Porfolio profesional.
 - Retirada progresiva del sistema de copias anterior basado en SMB.
 - Integración del estado de Kopia con las alertas centralizadas.
 - Monitorización avanzada, alertas y revisión de métricas de red.
 - Arquitectura de delegación, especialización y futuros subagentes de Hermes.
+- Revisión y rotación periódica de las credenciales de infraestructura utilizadas con Cloudflare.
 
 ### ⬜ Pendiente
 
-- Proxy inverso.
-- HTTPS y publicación del porfolio.
 - Autenticación centralizada y claves de acceso (*passkeys*).
 - Integración de OpenClaw con Telegram y, posteriormente, WhatsApp.
 

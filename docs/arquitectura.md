@@ -18,6 +18,13 @@ flowchart TB
             multimedia[Multimedia]
             monitorizacion[Monitorización]
             copias[Copias de seguridad con Kopia]
+            dns[DNS interno con Pi-hole]
+            npm[Nginx Proxy Manager]
+            proxy[Red proxy compartida]
+            web[Servicios web integrados]
+            especiales[Servicios con redes propias]
+            cloudflared[cloudflared]
+            porfolio[Porfolio]
         end
 
         openclaw[OpenClaw y Vixi]
@@ -31,8 +38,16 @@ flowchart TB
     end
 
     repositorio[(Repositorio remoto privado)]
+    internet[Internet]
+    cloudflare[Cloudflare]
+    tunnel[Cloudflare Tunnel]
 
     lan --> ubuntu
+    lan -->|Resuelve nombres internos| dns -->|Acceso HTTPS| npm
+    npm --> proxy --> web
+    proxy --> porfolio
+    npm --> especiales
+    internet --> cloudflare --> tunnel --> cloudflared --> porfolio
     remoto --> wireguard --> ubuntu
     ubuntu --> docker
     ubuntu --> openclaw
@@ -68,18 +83,28 @@ Uso Docker y Docker Compose como plataforma principal porque permiten mantener l
 
 | Grupo | Servicios implementados | Papel en la arquitectura |
 |---|---|---|
-| Infraestructura | Pi-hole, WireGuard, wg-easy, Portainer, Uptime Kuma y Watchtower | Red local, acceso remoto, administración y comprobaciones de disponibilidad. |
+| Infraestructura | Pi-hole, WireGuard, wg-easy, Nginx Proxy Manager, Portainer, Uptime Kuma y Watchtower | DNS interno, acceso remoto, proxy inverso, administración y comprobaciones de disponibilidad. |
 | Multimedia | Plex, Sonarr, Radarr, Jackett, qBittorrent, Ruddarr y Cloudflare WARP | Búsqueda, descarga, organización y reproducción de contenido. |
 | Monitorización | Prometheus, Grafana, Node Exporter, cAdvisor, smartctl-exporter y Uptime Kuma | Métricas del host, contenedores, discos y disponibilidad de servicios. |
 | Copias de seguridad | Kopia | Copias cifradas, versionadas y deduplicadas en almacenamiento remoto. |
+| Publicación del porfolio | Porfolio, Gunicorn y cloudflared | Publicación web mediante Cloudflare Tunnel sin exponer el proxy inverso interno. |
 
 Watchtower solo actualiza automáticamente servicios de monitorización seleccionados. Los servicios críticos o sensibles se mantienen con actualización manual.
+
+Nginx Proxy Manager centraliza el acceso web interno. Los clientes consultan primero el DNS de Pi-hole y acceden después a los servicios mediante nombres internos y HTTPS válido. Los contenedores integrados comparten la red Docker `proxy`, pero conservan sus redes originales cuando las necesitan.
+
+No todos los servicios están conectados directamente a esa red. Algunos mantienen su arquitectura o redes específicas y Nginx Proxy Manager llega a ellos por una ruta compatible. Así no hace falta forzar toda la infraestructura a una única topología.
+
+El porfolio está conectado a su propia red Docker y a la red compartida `proxy`, por lo que Nginx Proxy Manager puede servirlo dentro de la LAN. La publicación pública sigue otra ruta: Internet, Cloudflare Tunnel, cloudflared y el contenedor del porfolio. Nginx Proxy Manager no forma parte de ese recorrido.
 
 ## Acceso local y remoto
 
 - **Red local:** los clientes acceden directamente al servidor y a los servicios habilitados para la LAN.
+- **Acceso web interno:** Pi-hole resuelve los nombres internos y Nginx Proxy Manager dirige cada petición al servicio correspondiente mediante HTTPS.
 - **Acceso remoto:** WireGuard crea el acceso privado desde fuera de la red local.
 - **Administración:** los servicios administrativos no se publican directamente en Internet.
+- **Porfolio público:** es la única excepción y se publica mediante Cloudflare Tunnel, sin abrir puertos web en el router.
+- **Acceso directo de respaldo:** algunos servicios internos mantienen temporalmente sus puertos web anteriores mientras se comprueba la estabilidad del proxy. El porfolio de producción ya no conserva ese acceso directo.
 - **Servicios locales:** Samba está limitado a la interfaz de red local.
 
 UFW controla el acceso al servidor. Fail2ban protege SSH y AppArmor se aplica a los contenedores relevantes. La configuración detallada de estos controles se trata en [Seguridad](seguridad.md).
@@ -145,6 +170,7 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 - **Acceso remoto mediante WireGuard:** mantiene el acceso desde fuera separado del acceso normal dentro de la LAN.
 - **Permisos distintos para Codex:** Codex nativo conserva los permisos del usuario principal; Vixi Web usa un entorno separado y limitado.
 - **Actualizaciones selectivas:** la automatización se aplica solo donde está prevista. Los componentes sensibles se revisan y actualizan manualmente.
+- **Publicación separada del acceso interno:** Cloudflare Tunnel publica únicamente el porfolio; Nginx Proxy Manager mantiene su función dentro de la red privada.
 
 ## Evolución de la arquitectura
 
@@ -152,12 +178,12 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 |---|---|
 | ✅ Implementado | Primera versión de la documentación pública del homelab. |
 | ✅ Implementado | Copias de seguridad cifradas y versionadas con una restauración real validada. |
-| 🟡 En proceso | Desarrollo y revisión del porfolio profesional. |
+| ✅ Implementado | DNS interno, proxy inverso y HTTPS válido para los servicios web integrados. |
+| ✅ Implementado | Porfolio desplegado y publicado mediante Cloudflare Tunnel. |
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
 | 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Revisión de métricas de red y ampliación de alertas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
-| ⬜ Pendiente | Proxy inverso. |
-| ⬜ Pendiente | HTTPS y publicación del porfolio. |
+| 🟡 En proceso | Retirada progresiva de los accesos web directos de otros servicios internos. |
 | ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
 | ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
