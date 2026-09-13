@@ -9,6 +9,7 @@ La mayoría de servicios del homelab se ejecutan con Docker y Docker Compose. Op
 | Infraestructura | Pi-hole, WireGuard, wg-easy y Uptime Kuma | ✅ Implementado | Red local, acceso remoto privado y comprobación de disponibilidad. |
 | Multimedia | Ruddarr, Radarr, Sonarr, Jackett, qBittorrent, Cloudflare WARP y Plex | ✅ Implementado | Gestionar las peticiones, buscar contenido, descargarlo, organizarlo y reproducirlo. |
 | Monitorización | Prometheus, Grafana, Node Exporter, cAdvisor y smartctl-exporter | ✅ Implementado | Recoger y mostrar métricas del host, los contenedores y los discos. |
+| Copias de seguridad | Kopia y Cloudflare R2 | ✅ Implementado | Generar copias cifradas, versionadas y deduplicadas en almacenamiento remoto. |
 | Administración | Portainer, Homepage, Samba y Watchtower | ✅ Implementado | Administrar contenedores, acceder a los servicios, compartir datos en la LAN y aplicar actualizaciones autorizadas. |
 | Servicios auxiliares | docker-socket-proxy y vixi-status | ✅ Implementado | Consultar el estado de Docker y del homelab sin dar acceso directo al socket. |
 | Seguridad del sistema | UFW, Fail2ban y AppArmor | ✅ Implementado | Controlar accesos y aplicar protección al host y a los contenedores relevantes. |
@@ -81,6 +82,12 @@ La monitorización actual todavía tiene dos puntos abiertos:
 - 🟡 **En proceso:** revisar las métricas de la interfaz física de red. Node Exporter se ejecuta en un contenedor con su propio espacio de red y no ve directamente la interfaz física del servidor. Por eso faltan algunas métricas de red del host.
 - 🟡 **En proceso:** completar las alertas avanzadas y las notificaciones.
 
+## Copias de seguridad
+
+Kopia se ejecuta en Docker y guarda copias cifradas y versionadas en un repositorio remoto privado. El proceso incluye la preparación consistente de las bases de datos SQLite, controles de error y comprobaciones sobre el estado de la última ejecución. Ya se ha validado una restauración real desde el almacenamiento remoto.
+
+La retirada del sistema de copias anterior basado en SMB y la integración con las alertas centralizadas siguen 🟡 **En proceso**. El detalle de la cobertura, la retención y las exclusiones está en [Copias de seguridad](copias-seguridad.md).
+
 ## Administración
 
 ### Portainer
@@ -129,13 +136,12 @@ Las pruebas realizadas confirman que este entorno puede escribir donde está aut
 | Estado | Elemento |
 |---|---|
 | 🟡 En proceso | Monitorización avanzada, revisión de métricas de red y mejora de alertas. |
-| 🟡 En proceso | Migración desde la solución provisional de copias de seguridad. |
+| 🟡 En proceso | Retirada del sistema de copias anterior basado en SMB e integración de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | ⬜ Pendiente | Proxy inverso. |
 | ⬜ Pendiente | HTTPS para la publicación del porfolio. |
 | ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
 | ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
-| ⬜ Pendiente | Prueba completa de restauración de copias de seguridad. |
 
 ## Política de actualizaciones
 

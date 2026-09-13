@@ -17,7 +17,7 @@ Aquí explico cómo está organizado y por qué tomé algunas decisiones técnic
 | ✅ Implementado | Documentación v1 | La primera versión pública está cerrada y revisada. Seguirá evolucionando junto al homelab. |
 | 🟡 En proceso | Hermes | Ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue en desarrollo. |
 | 🟡 En proceso | Porfolio | El porfolio profesional sigue en desarrollo y revisión. |
-| 🟡 En proceso | Copias de seguridad | Estoy sustituyendo la solución provisional por una estrategia cifrada, versionada y verificable. |
+| ✅ Implementado | Copias de seguridad | Kopia genera copias cifradas y versionadas en almacenamiento remoto. La restauración real ya se ha validado. |
 | 🟡 En proceso | Monitorización avanzada | Todavía tengo que revisar las métricas de red y completar las alertas y notificaciones. |
 
 ## Arquitectura general
@@ -70,6 +70,7 @@ flowchart LR
 - **Infraestructura:** Pi-hole, WireGuard, wg-easy, Portainer, Uptime Kuma y Watchtower.
 - **Multimedia:** Plex, Sonarr, Radarr, Jackett, qBittorrent, Ruddarr y Cloudflare WARP.
 - **Monitorización:** Prometheus, Grafana, Node Exporter, cAdvisor y smartctl-exporter.
+- **Copias de seguridad:** Kopia y Cloudflare R2.
 - **Seguridad:** UFW, Fail2ban, AppArmor y Samba con acceso restringido a la red local.
 - **Agentes y desarrollo:** OpenClaw, Vixi, Hermes y Codex.
 
@@ -104,12 +105,13 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 - Servicios de infraestructura, multimedia y monitorización descritos en este README.
 - Acceso remoto privado y controles básicos de seguridad.
 - OpenClaw con Vixi, Codex nativo con los permisos del usuario principal y un entorno Codex aislado para Vixi Web.
+- Copias de seguridad cifradas y versionadas con una restauración real validada.
 - Primera versión de la documentación pública del homelab.
 
 ### 🟡 En proceso
 
 - Porfolio profesional.
-- Migración del sistema de copias de seguridad.
+- Retirada progresiva del sistema de copias anterior basado en SMB e integración del nuevo backup con las alertas centralizadas.
 - Monitorización avanzada, alertas y revisión de métricas de red.
 - Arquitectura de delegación, especialización y futuros subagentes de Hermes.
 
@@ -119,7 +121,6 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 - HTTPS y publicación del porfolio.
 - Autenticación centralizada y claves de acceso (*passkeys*).
 - Integración de OpenClaw con Telegram y, posteriormente, WhatsApp.
-- Prueba completa de restauración de copias de seguridad.
 
 ## Criterios de publicación
 

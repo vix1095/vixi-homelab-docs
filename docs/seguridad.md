@@ -16,6 +16,7 @@ La LAN es el entorno de acceso habitual. Cuando necesito entrar desde fuera util
 | AppArmor | ✅ Implementado | Añade aislamiento a los contenedores Docker relevantes. |
 | WireGuard | ✅ Implementado | Proporciona acceso remoto privado al homelab. |
 | Samba | ✅ Implementado | Queda limitado a la red local y no permite acceso invitado. |
+| Copias de seguridad | ✅ Implementado | Kopia cifra los datos antes de enviarlos al almacenamiento remoto y conserva versiones recuperables. |
 
 SSH no funciona exclusivamente con claves. La autenticación mediante clave pública está disponible, pero la autenticación por contraseña sigue habilitada como mecanismo de respaldo. No se retirará hasta comprobar por completo los accesos alternativos necesarios.
 
@@ -43,6 +44,5 @@ Watchtower actualiza automáticamente solo los servicios de monitorización auto
 
 | Estado | Mejora |
 |---|---|
-| 🟡 En proceso | Migrar a una estrategia de copias de seguridad cifrada y versionada. |
 | ⬜ Pendiente | Añadir autenticación centralizada y claves de acceso (*passkeys*) donde sean necesarias. |
 | ⬜ Pendiente | Incorporar proxy inverso y HTTPS antes de publicar los servicios que se decidan exponer. |

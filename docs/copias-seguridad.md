@@ -1,44 +1,52 @@
 # Copias de seguridad
 
-> **Estado general: 🟡 En proceso**
+> **Estado general: ✅ Implementado**
 
-Existe una copia automática diaria que se guarda fuera del servidor principal. Es una base funcional, pero sigue siendo provisional: tiene limitaciones conocidas y todavía no hay una restauración completa validada.
+Kopia se ejecuta en Docker y genera una copia automática diaria en un repositorio remoto privado de Cloudflare R2, con jurisdicción en la Unión Europea. Los datos se cifran antes de salir del servidor y Kopia aplica compresión, deduplicación y versionado.
 
-Que la tarea termine no basta para considerar que el backup es correcto. La referencia final será poder restaurarlo y comprobar que los datos necesarios vuelven a funcionar.
+La copia no se da por válida solo porque la tarea termine correctamente. También hay controles sobre el resultado y ya se ha probado una restauración real desde el repositorio remoto.
 
-## Cobertura actual
+## Funcionamiento
+
+Antes de cada ejecución se preparan copias consistentes de las bases de datos SQLite y una zona temporal con la configuración del sistema que debe conservarse. Después, el proceso principal ejecuta Kopia con bloqueo para evitar solapamientos, controla los errores y actualiza el registro y el estado del último backup.
+
+Una comprobación local revisa la última ejecución correcta y avisa si la copia supera la antigüedad máxima definida.
+
+## Retención
+
+La política conserva:
+
+- las 7 últimas copias;
+- 7 copias diarias;
+- 4 copias semanales;
+- 6 copias mensuales;
+- 1 copia anual;
+- ninguna copia horaria.
+
+## Cobertura
 
 | Elemento | Estado | Situación |
 |---|---|---|
-| Ejecución automática diaria | ✅ Implementado | Genera una copia fuera del servidor principal. |
-| Configuraciones y stacks | ✅ Implementado | Forman parte de la copia actual. |
-| Datos persistentes relevantes | ✅ Implementado | Se incluyen dentro de la cobertura definida actualmente. |
-| Inventario del sistema | ✅ Implementado | Se conserva como apoyo para reconstruir el entorno. |
-| Registro de ejecución y estado | ✅ Implementado | Permite consultar el resultado general del proceso. |
-| Estrategia definitiva | 🟡 En proceso | Se está rediseñando la cobertura y el método de almacenamiento. |
-| Restauración completa validada | ⬜ Pendiente | Todavía no se ha probado de principio a fin. |
+| Ejecución automática diaria | ✅ Implementado | Genera una copia cifrada y versionada fuera del servidor principal. |
+| Configuraciones y stacks | ✅ Implementado | Incluye las definiciones y la configuración necesarias para reconstruir los servicios. |
+| Datos persistentes de aplicaciones | ✅ Implementado | Cubre los datos relevantes de los servicios y sus copias consistentes de SQLite. |
+| Scripts, espacios de trabajo y estados auxiliares | ✅ Implementado | Conserva los elementos necesarios para recuperar las automatizaciones y herramientas del entorno. |
+| OpenClaw, Vixi y Hermes | ✅ Implementado | Sus datos necesarios forman parte de la cobertura definida. |
+| Documentos del HDD | ✅ Implementado | El directorio `/data/documents` está incluido. |
+| Registro, estado y control de errores | ✅ Implementado | Permite comprobar el resultado del proceso y detectar copias demasiado antiguas. |
+| Restauración real desde el repositorio remoto | ✅ Implementado | Se ha recuperado información desde R2 y se ha verificado su integridad. |
 
 ## Qué queda fuera
 
-Las películas y las series se excluyen de forma deliberada de este backup de configuración. La copia se centra en los elementos necesarios para reconstruir el sistema y sus servicios, no en las bibliotecas multimedia.
+Las películas, las series y las descargas se excluyen de forma deliberada. También queda fuera una copia antigua y redundante del porfolio. El backup se centra en los elementos necesarios para reconstruir el sistema, sus servicios y los documentos que sí requieren protección remota.
 
-## Limitaciones conocidas
+## Restauración validada
 
-- Funciona principalmente como copia o espejo, no como un sistema completo de backup versionado.
-- La cobertura actual todavía debe revisarse.
-- Un resultado general correcto puede ocultar fallos en partes concretas del proceso.
-- No todas las aplicaciones tienen garantizada una copia consistente. Algunas pueden necesitar snapshots o exportaciones específicas.
-- No existe todavía una restauración completa validada.
+Se ha realizado una restauración real desde Cloudflare R2. El contenido recuperado se comparó mediante SHA-256 y las bases de datos SQLite pasaron una comprobación de integridad.
 
-## Estrategia futura
+Existe además un procedimiento de recuperación documentado para reconstruir el entorno y restaurar los datos sin guardar secretos dentro de la propia documentación.
 
-El rediseño busca una solución cifrada, versionada y con restauraciones probadas. También deberá mejorar la detección de errores y definir qué aplicaciones necesitan un tratamiento específico para mantener la consistencia de sus datos.
+## En proceso
 
-Se está valorando utilizar almacenamiento remoto o cloud con cifrado del lado cliente, pero la solución final todavía no está elegida.
-
-## Pendiente
-
-- 🟡 **En proceso:** revisar la cobertura y diseñar la estrategia definitiva.
-- ⬜ **Pendiente:** incorporar cifrado y versionado adecuados.
-- ⬜ **Pendiente:** definir copias consistentes para las aplicaciones que lo necesiten.
-- ⬜ **Pendiente:** validar una restauración completa antes de dar el sistema por fiable.
+- 🟡 Integrar el estado del backup con la monitorización y las alertas centralizadas.
+- 🟡 Retirar el sistema de copias anterior basado en SMB cuando Kopia haya acumulado suficiente historial como solución principal. Mientras tanto se mantiene como red de seguridad y su tarea programada sigue activa.

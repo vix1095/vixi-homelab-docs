@@ -17,6 +17,7 @@ flowchart TB
             infraestructura[Infraestructura]
             multimedia[Multimedia]
             monitorizacion[Monitorización]
+            copias[Copias de seguridad con Kopia]
         end
 
         openclaw[OpenClaw y Vixi]
@@ -29,6 +30,8 @@ flowchart TB
         datos[(HDD de datos)]
     end
 
+    repositorio[(Repositorio remoto privado)]
+
     lan --> ubuntu
     remoto --> wireguard --> ubuntu
     ubuntu --> docker
@@ -38,6 +41,9 @@ flowchart TB
     ubuntu --> vixi_web --> codex_aislado --> espacios
     ubuntu --> sistema
     multimedia --> datos
+    sistema --> copias
+    datos --> copias
+    copias -->|Datos cifrados| repositorio
     monitorizacion --> ubuntu
     monitorizacion --> docker
 ```
@@ -54,7 +60,7 @@ Los clientes de la LAN acceden directamente al servidor y a los servicios dispon
 | HDD de 2 TB | ✅ Implementado | Almacena principalmente datos y contenido multimedia. |
 | Ubuntu Server 24.04 LTS | ✅ Implementado | Sistema operativo base. |
 
-Separar el sistema de los datos simplifica la organización y evita que las bibliotecas multimedia compartan espacio con el disco del sistema. Esta separación física no sustituye una estrategia de copias de seguridad; esa parte todavía está en proceso.
+Separar el sistema de los datos simplifica la organización y evita que las bibliotecas multimedia compartan espacio con el disco del sistema. Esta separación física se complementa con copias cifradas y versionadas en almacenamiento remoto mediante Kopia.
 
 ## Contenedores y servicios
 
@@ -65,6 +71,7 @@ Uso Docker y Docker Compose como plataforma principal porque permiten mantener l
 | Infraestructura | Pi-hole, WireGuard, wg-easy, Portainer, Uptime Kuma y Watchtower | Red local, acceso remoto, administración y comprobaciones de disponibilidad. |
 | Multimedia | Plex, Sonarr, Radarr, Jackett, qBittorrent, Ruddarr y Cloudflare WARP | Búsqueda, descarga, organización y reproducción de contenido. |
 | Monitorización | Prometheus, Grafana, Node Exporter, cAdvisor, smartctl-exporter y Uptime Kuma | Métricas del host, contenedores, discos y disponibilidad de servicios. |
+| Copias de seguridad | Kopia | Copias cifradas, versionadas y deduplicadas en almacenamiento remoto. |
 
 Watchtower solo actualiza automáticamente servicios de monitorización seleccionados. Los servicios críticos o sensibles se mantienen con actualización manual.
 
@@ -144,12 +151,12 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 | Estado | Elemento |
 |---|---|
 | ✅ Implementado | Primera versión de la documentación pública del homelab. |
+| ✅ Implementado | Copias de seguridad cifradas y versionadas con una restauración real validada. |
 | 🟡 En proceso | Desarrollo y revisión del porfolio profesional. |
-| 🟡 En proceso | Migración desde la solución provisional de copias de seguridad. |
+| 🟡 En proceso | Retirada del sistema de copias anterior basado en SMB e integración de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Revisión de métricas de red y ampliación de alertas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | ⬜ Pendiente | Proxy inverso. |
 | ⬜ Pendiente | HTTPS y publicación del porfolio. |
 | ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
 | ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
-| ⬜ Pendiente | Prueba completa de restauración de copias de seguridad. |

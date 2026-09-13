@@ -16,7 +16,7 @@ No todo el espacio disponible está asignado a un uso definitivo. Prefiero mante
 
 ## HDD: multimedia y datos grandes
 
-El HDD se monta en `/data` y guarda principalmente las bibliotecas multimedia, las descargas y otros datos de gran tamaño. Las películas y las series no forman parte de las copias de configuración.
+El HDD se monta en `/data` y guarda principalmente las bibliotecas multimedia, las descargas y otros datos de gran tamaño. Las películas, las series y las descargas quedan fuera del backup remoto, mientras que `/data/documents` sí está incluido.
 
 ## Criterio de separación
 
@@ -24,7 +24,7 @@ La idea es sencilla: el sistema, las definiciones de los stacks y la persistenci
 
 Esta separación evita mezclar las bibliotecas multimedia con el disco del sistema y mantiene más clara la relación entre Docker y sus datos. No significa que todos los datos persistentes estén en el HDD: `/opt/appdata` y `/opt/stacks` están en el SSD.
 
-## Pendiente
+## Estado y pendiente
 
 - ⬜ Decidir cómo utilizar el espacio restante del SSD.
-- 🟡 Rediseñar la estrategia de copias de seguridad. Su funcionamiento y alcance se documentarán en [Copias de seguridad](copias-seguridad.md).
+- ✅ La estrategia de copias de seguridad ya utiliza Kopia con almacenamiento remoto cifrado y versionado. Su funcionamiento y alcance están en [Copias de seguridad](copias-seguridad.md).
