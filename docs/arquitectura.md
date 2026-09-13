@@ -103,7 +103,7 @@ El porfolio está conectado a su propia red Docker y a la red compartida `proxy`
 - **Acceso web interno:** Pi-hole resuelve los nombres internos y Nginx Proxy Manager dirige cada petición al servicio correspondiente mediante HTTPS.
 - **Acceso remoto:** WireGuard crea el acceso privado desde fuera de la red local.
 - **Administración:** los servicios administrativos no se publican directamente en Internet.
-- **Porfolio público:** es la única excepción y se publica mediante Cloudflare Tunnel, sin abrir puertos web en el router.
+- **Porfolio público:** es la única aplicación web publicada y utiliza Cloudflare Tunnel, sin abrir puertos web en el router.
 - **Acceso directo de respaldo:** algunos servicios internos mantienen temporalmente sus puertos web anteriores mientras se comprueba la estabilidad del proxy. El porfolio de producción ya no conserva ese acceso directo.
 - **Servicios locales:** Samba está limitado a la interfaz de red local.
 

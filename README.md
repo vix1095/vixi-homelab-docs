@@ -81,7 +81,7 @@ flowchart LR
 - **Contenedores como plataforma principal:** uso Docker para mantener los servicios separados, organizarlos mejor y simplificar el mantenimiento.
 - **Acceso remoto privado:** utilizo una conexión privada para entrar desde fuera. Los servicios administrativos no están pensados para exponerse directamente a Internet.
 - **Acceso web interno:** Pi-hole resuelve los nombres internos y Nginx Proxy Manager centraliza el acceso mediante HTTPS válido.
-- **Publicación separada:** el porfolio es el único servicio público y utiliza Cloudflare Tunnel. Nginx Proxy Manager sigue reservado para el acceso interno.
+- **Publicación separada:** el porfolio es la única aplicación web pública y utiliza Cloudflare Tunnel. Nginx Proxy Manager sigue reservado para el acceso interno.
 - **Superficie pública acotada:** el acceso directo de producción desde la LAN ya está retirado. Los servicios internos y administrativos continúan fuera de Internet.
 - **Actualizaciones selectivas:** automatizo las actualizaciones de algunos servicios de monitorización. Los componentes críticos o sensibles los actualizo manualmente.
 - **Entorno de trabajo restringido:** Codex nativo se ejecuta con los permisos del usuario principal. Para Vixi Web mantengo otro entorno Codex aislado, ejecutado con un usuario dedicado, que solo puede trabajar sobre los espacios autorizados.

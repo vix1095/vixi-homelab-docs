@@ -83,7 +83,7 @@ Una conexión remota entra primero por WireGuard y, desde ahí, puede alcanzar l
 | Puertos web directos anteriores | Se mantienen temporalmente como vía de respaldo. | 🟡 En proceso |
 | Autenticación centralizada | No desplegada. | ⬜ Pendiente |
 
-OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker. El acceso remoto mediante WireGuard todavía no se ha verificado.
+OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker.
 
 ## Tráfico normal, WireGuard, WARP y Tunnel
 
@@ -113,7 +113,7 @@ WARP y Tunnel no cumplen la misma función: WARP sigue limitado a las consultas 
 
 ## Criterio de exposición
 
-El proxy inverso y HTTPS se utilizan dentro de la red privada. El porfolio es la única excepción pública y se publica mediante Cloudflare Tunnel, sin abrir puertos web en el router ni mantener un acceso directo adicional para la instancia de producción. El resto de servicios, incluidos los administrativos, continúa siendo privado.
+El proxy inverso y HTTPS se utilizan dentro de la red privada. El porfolio es la única aplicación web pública y se publica mediante Cloudflare Tunnel, sin abrir puertos web en el router ni mantener un acceso directo adicional para la instancia de producción. El resto de servicios, incluidos los administrativos, continúa siendo privado.
 
 ## Pendiente
 
