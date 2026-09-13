@@ -10,7 +10,7 @@ La copia no se da por válida solo porque la tarea termine correctamente. Tambi�
 
 Antes de cada ejecución se preparan copias consistentes de las bases de datos SQLite y una zona temporal con la configuración del sistema que debe conservarse. Después, el proceso principal ejecuta Kopia con bloqueo para evitar solapamientos, controla los errores y actualiza el registro y el estado del último backup.
 
-Una comprobación local revisa la última ejecución correcta y avisa si la copia supera la antigüedad máxima definida.
+Una comprobación local revisa la última ejecución correcta y detecta si la copia supera la antigüedad máxima admitida.
 
 ## Retención
 

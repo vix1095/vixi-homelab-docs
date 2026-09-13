@@ -19,7 +19,7 @@ Aquí explico cómo está organizado y por qué tomé algunas decisiones técnic
 | 🟡 En proceso | Hermes | Ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue en desarrollo. |
 | ✅ Implementado | Porfolio | Está desplegado en producción mediante Cloudflare Tunnel, con HTTPS obligatorio, TLS moderno y HSTS conservador. |
 | ✅ Implementado | Copias de seguridad | Kopia genera copias cifradas y versionadas en almacenamiento remoto. La restauración real ya se ha validado. |
-| 🟡 En proceso | Monitorización avanzada | Todavía tengo que revisar las métricas de red y completar las alertas y notificaciones. |
+| 🟡 En proceso | Monitorización avanzada | Quedan mejoras en métricas de red, alertas, notificaciones, paneles y cobertura de los datos recogidos. |
 
 ## Arquitectura general
 
@@ -73,6 +73,7 @@ flowchart LR
 - **Monitorización:** Prometheus, Grafana, Node Exporter, cAdvisor y smartctl-exporter.
 - **Copias de seguridad:** Kopia y Cloudflare R2.
 - **Publicación del porfolio:** Gunicorn, Cloudflare Tunnel y cloudflared.
+- **Dominio y correo:** dominio y correo en IONOS, con el DNS público gestionado desde Cloudflare.
 - **Seguridad:** UFW, Fail2ban, AppArmor y Samba con acceso restringido a la red local.
 - **Agentes y desarrollo:** OpenClaw, Vixi, Hermes y Codex.
 
@@ -94,6 +95,7 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 - [Arquitectura](docs/arquitectura.md)
 - [Servicios](docs/servicios.md)
 - [Red](docs/red.md)
+- [Dominio, DNS público y correo](docs/dominio-correo.md)
 - [Seguridad](docs/seguridad.md)
 - [Almacenamiento](docs/almacenamiento.md)
 - [Multimedia](docs/multimedia.md)
@@ -119,14 +121,14 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 
 - Retirada progresiva del sistema de copias anterior basado en SMB.
 - Integración del estado de Kopia con las alertas centralizadas.
-- Monitorización avanzada, alertas y revisión de métricas de red.
+- Monitorización avanzada: métricas de red, alertas, notificaciones, paneles y revisión de cobertura.
 - Arquitectura de delegación, especialización y futuros subagentes de Hermes.
-- Revisión y rotación periódica de las credenciales de infraestructura utilizadas con Cloudflare.
+- Mantenimiento de las credenciales de infraestructura utilizadas con Cloudflare, con su consolidación o rotación pendiente de aprobación.
 
 ### ⬜ Pendiente
 
-- Autenticación centralizada y claves de acceso (*passkeys*).
-- Integración de OpenClaw con Telegram y, posteriormente, WhatsApp.
+- Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado.
+- Integración de OpenClaw con Telegram.
 
 ## Criterios de publicación
 

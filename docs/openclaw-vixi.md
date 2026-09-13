@@ -2,7 +2,7 @@
 
 OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker. Vixi funciona como agente principal y coordina el uso de herramientas y agentes dentro del homelab.
 
-El Gateway se mantiene en acceso privado, está accesible desde la LAN y no se expone directamente a Internet. WireGuard es el mecanismo general de acceso remoto al homelab, pero el acceso remoto concreto a OpenClaw todavía no está verificado.
+El Gateway se mantiene en acceso privado, está accesible desde la LAN y no se expone directamente a Internet. WireGuard es el mecanismo general de acceso remoto al homelab y el acceso concreto a cada servicio se valida por separado.
 
 ## Componentes
 
@@ -31,15 +31,18 @@ Hermes existe como agente separado dentro de la arquitectura de OpenClaw. Su pap
 
 La base está creada, pero la arquitectura de Hermes y la incorporación de agentes especializados siguen en desarrollo y se tratan como una evolución independiente.
 
-## Memoria y skills
+## Memoria, skills y automatizaciones
 
-La memoria sirve para conservar contexto útil entre tareas y las skills reúnen procedimientos reutilizables. Su gestión, junto con los secretos, los canales y las automatizaciones, forma parte de la evolución de Vixi y no se considera terminada.
+La memoria sirve para conservar contexto útil entre tareas y las skills reúnen procedimientos reutilizables. Tanto esta parte como las automatizaciones siguen evolucionando.
 
-Los secretos deben permanecer fuera de la documentación y de los espacios públicos. Esta página solo describe el criterio general, no su configuración interna.
+Vixi dispone de una skill específica para revisar qué documentos quedan afectados después de un cambio validado, mantener los criterios de privacidad y preparar la actualización pública. La publicación final sigue requiriendo revisión y aprobación.
+
+Los secretos deben permanecer fuera de la documentación y de los espacios públicos. El uso de SecretRefs todavía está pendiente; esta página solo describe el criterio general, no su configuración interna.
 
 ## Evolución pendiente
 
-- 🟡 **En proceso:** mejorar la gestión de memoria, skills, secretos y automatizaciones.
-- ⬜ **Pendiente:** verificar el acceso remoto concreto a OpenClaw mediante WireGuard.
-- ⬜ **Pendiente:** añadir Telegram como primer canal externo.
+- 🟡 **En proceso:** seguir mejorando la memoria y las skills.
+- 🟡 **En proceso:** ampliar y revisar las automatizaciones.
+- ⬜ **Pendiente:** incorporar SecretRefs para la gestión de secretos.
+- ⬜ **Pendiente:** añadir Telegram como canal externo.
 - 🟡 **En proceso:** continuar la evolución de Hermes y de los agentes especializados.

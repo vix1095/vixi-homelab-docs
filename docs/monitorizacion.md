@@ -2,7 +2,7 @@
 
 La monitorización combina métricas del sistema con comprobaciones de disponibilidad. Prometheus recibe los datos de los exportadores y Grafana los muestra en paneles. Uptime Kuma cubre otra parte: comprobar si los servicios responden.
 
-La base está funcionando, pero todavía faltan algunas métricas de red y completar las alertas avanzadas.
+La base está funcionando y SMART ya aporta la información principal de los discos. Todavía quedan mejoras de cobertura, visualización y alertas.
 
 ## Componentes
 
@@ -30,4 +30,9 @@ El resto de métricas principales y la información SMART de los discos ya llega
 ## Mejoras pendientes
 
 - 🟡 **En proceso:** revisar cómo recoger correctamente las métricas de la interfaz física del servidor.
-- 🟡 **En proceso:** completar las alertas avanzadas y las notificaciones.
+- ⬜ **Pendiente:** completar las alertas avanzadas.
+- ⬜ **Pendiente:** completar las notificaciones.
+- ⬜ **Pendiente:** mejorar los paneles de Grafana.
+- ⬜ **Pendiente:** revisar la cobertura de las métricas de Docker.
+- ⬜ **Pendiente:** ampliar y revisar las temperaturas y las métricas SMART.
+- ⬜ **Pendiente:** definir mejor qué debe monitorizar Prometheus y qué comprobaciones corresponden a Uptime Kuma.

@@ -60,6 +60,12 @@ Samba también queda dentro de la LAN y está limitado a la interfaz de red loca
 
 El porfolio de producción ya no mantiene su antiguo acceso directo desde la LAN. Dentro de la red se gestiona mediante las redes Docker necesarias y, desde Internet, solo se alcanza a través de Cloudflare Tunnel.
 
+## DNS interno y DNS público
+
+Pi-hole resuelve los nombres privados del homelab para los clientes de la LAN. Cloudflare mantiene por separado el DNS público autoritativo de `vixstack.es`, utilizado para la publicación web, las validaciones de certificados y los registros de correo.
+
+El dominio continúa registrado en IONOS y el correo también sigue alojado allí. La migración de la autoridad DNS a Cloudflare conservó los registros necesarios y no supuso trasladar el servicio de correo. El reparto completo está resumido en [Dominio, DNS público y correo](dominio-correo.md).
+
 ## Acceso remoto mediante WireGuard
 
 WireGuard proporciona el acceso privado desde fuera de la red local. wg-easy se utiliza para administrarlo.
@@ -74,14 +80,14 @@ Una conexión remota entra primero por WireGuard y, desde ahí, puede alcanzar l
 | DNS interno | Resolución de nombres internos para los clientes configurados con Pi-hole. | ✅ Implementado |
 | Nginx Proxy Manager | Proxy inverso para el acceso web dentro de la red privada. | ✅ Implementado |
 | HTTPS interno | Certificados válidos para los servicios gestionados por el proxy. | ✅ Implementado |
-| Porfolio | Único servicio publicado en Internet. | ✅ Implementado |
+| Porfolio | Única aplicación web publicada en Internet. | ✅ Implementado |
 | Cloudflare Tunnel | Publica el porfolio sin abrir puertos web en el router. | ✅ Implementado |
 | Acceso LAN directo del porfolio | Retirado de la instancia de producción. | ✅ Implementado |
 | Samba | Solo la interfaz de la LAN. | ✅ Implementado |
 | OpenClaw | Accesible desde la LAN y protegido por firewall, sin exposición pública directa. | ✅ Implementado |
 | Servicios administrativos | Se mantienen en acceso privado. El acceso remoto debe validarse por servicio. | ✅ Implementado |
 | Puertos web directos anteriores | Se mantienen temporalmente como vía de respaldo. | 🟡 En proceso |
-| Autenticación centralizada | No desplegada. | ⬜ Pendiente |
+| Autenticación centralizada | Authentik es la opción preferida, pero no está desplegado. | ⬜ Pendiente |
 
 OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker.
 
@@ -118,4 +124,4 @@ El proxy inverso y HTTPS se utilizan dentro de la red privada. El porfolio es la
 ## Pendiente
 
 - 🟡 **Puertos web directos:** valorar su retirada cuando el acceso mediante proxy lleve suficiente tiempo estable.
-- ⬜ **Autenticación centralizada** para los servicios que lo necesiten.
+- ⬜ **Autenticación centralizada:** Authentik es la opción preferida para los servicios internos, pero todavía no está desplegado.

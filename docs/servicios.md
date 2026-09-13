@@ -92,10 +92,7 @@ Prometheus centraliza las métricas que producen los exportadores. Grafana se ut
 | smartctl-exporter | Aporta métricas SMART de los discos. | ✅ Implementado |
 | Uptime Kuma | Comprueba la disponibilidad de los servicios. | ✅ Implementado |
 
-La monitorización actual todavía tiene dos puntos abiertos:
-
-- 🟡 **En proceso:** revisar las métricas de la interfaz física de red. Node Exporter se ejecuta en un contenedor con su propio espacio de red y no ve directamente la interfaz física del servidor. Por eso faltan algunas métricas de red del host.
-- 🟡 **En proceso:** completar las alertas avanzadas y las notificaciones.
+La base de monitorización funciona, incluido el estado SMART principal de los discos. Quedan mejoras en las métricas de red, las alertas y notificaciones, los paneles y la cobertura de Docker y SMART. El detalle está en [Monitorización](monitorizacion.md).
 
 ## Copias de seguridad
 
@@ -150,16 +147,16 @@ Las pruebas realizadas confirman que este entorno puede escribir donde está aut
 
 | Estado | Elemento |
 |---|---|
-| 🟡 En proceso | Monitorización avanzada, revisión de métricas de red y mejora de alertas. |
+| 🟡 En proceso | Monitorización avanzada: métricas de red, alertas, notificaciones, paneles y revisión de cobertura. |
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
 | 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | 🟡 En proceso | Retirada progresiva de los puertos web directos de otros servicios internos. |
-| ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
-| ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
+| ⬜ Pendiente | Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado. |
+| ⬜ Pendiente | Integración de OpenClaw con Telegram. |
 
 ## Política de actualizaciones
 
-Watchtower actualiza automáticamente solo los servicios de monitorización que están autorizados para ello. No se aplica de forma general a todos los contenedores.
+Watchtower actualiza automáticamente Grafana, Prometheus, Node Exporter y Uptime Kuma. No se aplica de forma general a todos los contenedores.
 
-Los servicios críticos o sensibles se actualizan manualmente.
+Plex, Pi-hole, WireGuard y Portainer se actualizan manualmente. Esta política evita aplicar cambios automáticos indiscriminados a componentes con mayor impacto.

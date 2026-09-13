@@ -68,6 +68,6 @@ Watchtower actualiza automáticamente solo los servicios de monitorización auto
 
 | Estado | Mejora |
 |---|---|
-| 🟡 En proceso | Consolidar y rotar las credenciales de infraestructura utilizadas con Cloudflare. |
+| 🟡 En proceso | Mantenimiento de las credenciales de infraestructura utilizadas con Cloudflare. Su consolidación o rotación queda pendiente de aprobación. |
 | 🟡 En proceso | Valorar una versión explícita de cloudflared en lugar de una etiqueta flotante. Es una mejora de baja prioridad. |
-| ⬜ Pendiente | Añadir autenticación centralizada y claves de acceso (*passkeys*) donde sean necesarias. |
+| ⬜ Pendiente | Añadir autenticación centralizada a los servicios internos. Authentik es la opción preferida, pero todavía no está desplegado. |

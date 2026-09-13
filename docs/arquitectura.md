@@ -97,6 +97,8 @@ No todos los servicios están conectados directamente a esa red. Algunos mantien
 
 El porfolio está conectado a su propia red Docker y a la red compartida `proxy`, por lo que Nginx Proxy Manager puede servirlo dentro de la LAN. La publicación pública sigue otra ruta: Internet, Cloudflare Tunnel, cloudflared y el contenedor del porfolio. Nginx Proxy Manager no forma parte de ese recorrido.
 
+El dominio continúa registrado en IONOS, mientras que Cloudflare gestiona el DNS público. El correo sigue alojado en IONOS y no se migró junto con la autoridad DNS. Esta separación se explica en [Dominio, DNS público y correo](dominio-correo.md).
+
 ## Acceso local y remoto
 
 - **Red local:** los clientes acceden directamente al servidor y a los servicios habilitados para la LAN.
@@ -144,10 +146,7 @@ Cloudflare WARP se usa únicamente con Jackett por los bloqueos de algunos index
 
 Prometheus recoge métricas del host, de los contenedores y del estado SMART de los discos. Grafana se encarga de mostrarlas y Uptime Kuma comprueba la disponibilidad de los servicios. Node Exporter, cAdvisor y smartctl-exporter aportan las métricas de cada capa.
 
-La cobertura actual tiene dos puntos abiertos:
-
-- 🟡 **En proceso:** revisar la monitorización de la interfaz física de red. Node Exporter se ejecuta en un contenedor con su propio espacio de red y no ve directamente la interfaz física del servidor. Por eso faltan algunas métricas de red del host.
-- 🟡 **En proceso:** completar las alertas avanzadas y las notificaciones.
+La base funciona y las métricas SMART principales ya llegan a Prometheus. Quedan mejoras en la interfaz física de red, las alertas y notificaciones, los paneles y la cobertura de métricas. El detalle está en [Monitorización](monitorizacion.md).
 
 ## OpenClaw, Vixi, Hermes y Codex
 
@@ -182,8 +181,8 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 | ✅ Implementado | Porfolio desplegado y publicado mediante Cloudflare Tunnel. |
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
 | 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
-| 🟡 En proceso | Revisión de métricas de red y ampliación de alertas. |
+| 🟡 En proceso | Mejora de métricas de red, alertas, notificaciones, paneles y cobertura de monitorización. |
 | 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
 | 🟡 En proceso | Retirada progresiva de los accesos web directos de otros servicios internos. |
-| ⬜ Pendiente | Autenticación centralizada y claves de acceso (*passkeys*). |
-| ⬜ Pendiente | Integración de OpenClaw con Telegram y, más adelante, WhatsApp. |
+| ⬜ Pendiente | Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado. |
+| ⬜ Pendiente | Integración de OpenClaw con Telegram. |
