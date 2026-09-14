@@ -87,7 +87,7 @@ Prometheus centraliza las métricas que producen los exportadores. Grafana se ut
 |---|---|---|
 | Prometheus | Recoge métricas del host, los contenedores y SMART. | ✅ Implementado |
 | Grafana | Muestra las métricas recogidas por Prometheus. | ✅ Implementado |
-| Node Exporter | Aporta métricas del host. | ✅ Implementado |
+| Node Exporter | Está operativo, pero no recoge las métricas de la interfaz física del servidor. | 🟡 En proceso |
 | cAdvisor | Aporta métricas de los contenedores. | ✅ Implementado |
 | smartctl-exporter | Aporta métricas SMART de los discos. | ✅ Implementado |
 | Uptime Kuma | Comprueba la disponibilidad de los servicios. | ✅ Implementado |
@@ -117,7 +117,7 @@ Samba permite acceder a datos compartidos desde la red local. Está limitado a l
 ### Servicios auxiliares
 
 - **docker-socket-proxy:** proporciona a vixi-status acceso controlado a la API de Docker sin conectarlo directamente al socket.
-- **vixi-status:** reúne el estado del sistema, Docker, el almacenamiento y OpenClaw para que pueda consultarse desde un único servicio.
+- **vixi-status:** reúne el estado del sistema, Docker, el almacenamiento y OpenClaw para que pueda consultarse desde un único servicio. Su integración con el estado real de Kopia sigue pendiente.
 
 ### Controles del sistema
 
@@ -129,7 +129,7 @@ Samba permite acceder a datos compartidos desde la red local. Está limitado a l
 
 ### OpenClaw, Vixi y Hermes
 
-OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker. Vixi funciona como agente principal. Hermes ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue 🟡 **En proceso**. El Gateway se mantiene dentro de la red local y protegido por firewall.
+OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker. Vixi funciona como agente principal y Telegram ya está operativo como canal externo. Hermes existe como agente separado, pero su arquitectura avanzada sigue incompleta y su desarrollo está pausado mientras se consolida OpenClaw/Vixi. El Gateway se mantiene dentro de la red local y protegido por firewall.
 
 El plugin de Codex está habilitado para integrar el trabajo sobre proyectos.
 
@@ -149,11 +149,10 @@ Las pruebas realizadas confirman que este entorno puede escribir donde está aut
 |---|---|
 | 🟡 En proceso | Monitorización avanzada: métricas de red, alertas, notificaciones, paneles y revisión de cobertura. |
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
-| 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
-| 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
+| 🟡 En proceso | Integración de vixi-status con el estado real de Kopia y con las alertas centralizadas. |
+| 🟡 En proceso | Arquitectura avanzada de Hermes, actualmente pausada mientras se consolida OpenClaw/Vixi. |
 | 🟡 En proceso | Retirada progresiva de los puertos web directos de otros servicios internos. |
-| ⬜ Pendiente | Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado. |
-| ⬜ Pendiente | Integración de OpenClaw con Telegram. |
+| ⬜ Pendiente | Desplegar Authentik como próximo paso para centralizar la autenticación. |
 
 ## Política de actualizaciones
 

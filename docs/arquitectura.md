@@ -150,7 +150,7 @@ La base funciona y las métricas SMART principales ya llegan a Prometheus. Queda
 
 ## OpenClaw, Vixi, Hermes y Codex
 
-OpenClaw está instalado directamente sobre Ubuntu. Vixi funciona como agente principal. Hermes ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue 🟡 **En proceso**.
+OpenClaw está instalado directamente sobre Ubuntu. Vixi funciona como agente principal y Telegram ya está operativo como canal externo. Hermes existe como agente separado, pero su arquitectura avanzada sigue incompleta y su desarrollo está pausado mientras se consolida OpenClaw/Vixi.
 
 Hay dos entornos de Codex con permisos distintos:
 
@@ -180,9 +180,8 @@ Vixi Web se ejecuta como servicio `systemd` y mantiene el entorno aislado separa
 | ✅ Implementado | DNS interno, proxy inverso y HTTPS válido para los servicios web integrados. |
 | ✅ Implementado | Porfolio desplegado y publicado mediante Cloudflare Tunnel. |
 | 🟡 En proceso | Retirada progresiva del sistema de copias anterior basado en SMB. |
-| 🟡 En proceso | Integración del estado de Kopia con las alertas centralizadas. |
+| 🟡 En proceso | Integración de vixi-status con el estado real de Kopia y con las alertas centralizadas. |
 | 🟡 En proceso | Mejora de métricas de red, alertas, notificaciones, paneles y cobertura de monitorización. |
-| 🟡 En proceso | Arquitectura de delegación, especialización y futuros subagentes de Hermes. |
+| 🟡 En proceso | Arquitectura avanzada de Hermes, actualmente pausada mientras se consolida OpenClaw/Vixi. |
 | 🟡 En proceso | Retirada progresiva de los accesos web directos de otros servicios internos. |
-| ⬜ Pendiente | Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado. |
-| ⬜ Pendiente | Integración de OpenClaw con Telegram. |
+| ⬜ Pendiente | Desplegar Authentik para centralizar progresivamente la autenticación de los servicios internos. |

@@ -48,5 +48,6 @@ Existe además un procedimiento de recuperación documentado para reconstruir el
 
 ## En proceso
 
-- 🟡 Integrar el estado del backup con la monitorización y las alertas centralizadas.
-- 🟡 Retirar el sistema de copias anterior basado en SMB cuando Kopia haya acumulado suficiente historial como solución principal. Mientras tanto se mantiene como red de seguridad y su tarea programada sigue activa.
+- 🟡 Corregir la integración de vixi-status, que todavía consulta la fuente del sistema anterior en lugar del estado real de Kopia.
+- 🟡 Integrar el estado real de Kopia con la monitorización y las alertas centralizadas.
+- 🟡 Retirar el sistema de copias anterior basado en SMB cuando se confirme que ya no aporta una copia útil. El sistema continúa presente como respaldo, pero su programación y actividad actual deben verificarse antes de decidir su retirada.

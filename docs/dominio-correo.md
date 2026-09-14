@@ -33,7 +33,7 @@ IONOS conserva el registro del dominio y el alojamiento del correo. Durante la m
 | Registros MX | ✅ Implementado | Están presentes después de la migración. |
 | SPF | ✅ Implementado | Se ha comprobado públicamente. |
 | DKIM | ✅ Implementado | Se ha comprobado públicamente. |
-| DMARC | 🟡 En proceso | Queda pendiente revisar y confirmar su estado. |
+| DMARC | 🟡 En proceso | Ya está publicado en modo de observación; queda decidir si conviene aplicar una política más estricta. |
 | Funcionamiento del correo | ✅ Implementado | Se ha comprobado después de la migración del DNS. |
 
 ## Criterio de publicación

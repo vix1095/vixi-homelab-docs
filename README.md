@@ -14,9 +14,9 @@ Aquí explico cómo está organizado y por qué tomé algunas decisiones técnic
 | ✅ Implementado | Multimedia | Gestión, descarga, organización y reproducción multimedia mediante un flujo automatizado. |
 | ✅ Implementado | Monitorización | Prometheus y sus exportadores recogen métricas del host, los contenedores y el estado SMART. Grafana las muestra en paneles. |
 | ✅ Implementado | Seguridad | Firewall, protección de SSH, AppArmor, acceso remoto privado y servicios de red local restringidos. |
-| ✅ Implementado | Automatización asistida | OpenClaw con Vixi como agente principal. Codex nativo se ejecuta con los permisos del usuario principal, y Vixi Web tiene además un entorno Codex aislado limitado a espacios de trabajo autorizados. |
+| ✅ Implementado | Automatización asistida | OpenClaw con Vixi como agente principal y Telegram como canal externo. Codex nativo y el entorno aislado de Vixi Web mantienen permisos distintos. |
 | ✅ Implementado | Documentación v1 | La primera versión pública está cerrada y revisada. Seguirá evolucionando junto al homelab. |
-| 🟡 En proceso | Hermes | Ya existe como agente separado, pero su arquitectura de delegación, especialización y futuros subagentes sigue en desarrollo. |
+| 🟡 En proceso | Hermes | Ya existe como agente separado, pero su arquitectura avanzada sigue incompleta y su desarrollo está pausado mientras se consolida OpenClaw/Vixi. |
 | ✅ Implementado | Porfolio | Está desplegado en producción mediante Cloudflare Tunnel, con HTTPS obligatorio, TLS moderno y HSTS conservador. |
 | ✅ Implementado | Copias de seguridad | Kopia genera copias cifradas y versionadas en almacenamiento remoto. La restauración real ya se ha validado. |
 | 🟡 En proceso | Monitorización avanzada | Quedan mejoras en métricas de red, alertas, notificaciones, paneles y cobertura de los datos recogidos. |
@@ -111,7 +111,7 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 - Plataforma base con Ubuntu Server, Docker y Docker Compose.
 - Servicios de infraestructura, multimedia y monitorización descritos en este README.
 - Acceso remoto privado y controles básicos de seguridad.
-- OpenClaw con Vixi, Codex nativo con los permisos del usuario principal y un entorno Codex aislado para Vixi Web.
+- OpenClaw con Vixi, Telegram como canal externo, Codex nativo con los permisos del usuario principal y un entorno Codex aislado para Vixi Web.
 - Copias de seguridad cifradas y versionadas con una restauración real validada.
 - DNS interno, proxy inverso y HTTPS para los servicios web integrados en la red local.
 - Porfolio publicado en [vixstack.es](https://vixstack.es) mediante Cloudflare Tunnel, sin *port forwarding* web.
@@ -120,15 +120,14 @@ La documentación v1 está cerrada y revisada. Está dividida en estos apartados
 ### 🟡 En proceso
 
 - Retirada progresiva del sistema de copias anterior basado en SMB.
-- Integración del estado de Kopia con las alertas centralizadas.
+- Integración de vixi-status con el estado real de Kopia y con las alertas centralizadas.
 - Monitorización avanzada: métricas de red, alertas, notificaciones, paneles y revisión de cobertura.
-- Arquitectura de delegación, especialización y futuros subagentes de Hermes.
+- Arquitectura avanzada de Hermes, actualmente pausada mientras se consolida OpenClaw/Vixi.
 - Mantenimiento de las credenciales de infraestructura utilizadas con Cloudflare, con su consolidación o rotación pendiente de aprobación.
 
 ### ⬜ Pendiente
 
-- Autenticación centralizada de servicios internos. Authentik es la opción preferida, pero todavía no está desplegado.
-- Integración de OpenClaw con Telegram.
+- Autenticación centralizada con Authentik, prevista como uno de los próximos cambios del homelab.
 
 ## Criterios de publicación
 

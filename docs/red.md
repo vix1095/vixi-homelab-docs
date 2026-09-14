@@ -87,7 +87,7 @@ Una conexión remota entra primero por WireGuard y, desde ahí, puede alcanzar l
 | OpenClaw | Accesible desde la LAN y protegido por firewall, sin exposición pública directa. | ✅ Implementado |
 | Servicios administrativos | Se mantienen en acceso privado. El acceso remoto debe validarse por servicio. | ✅ Implementado |
 | Puertos web directos anteriores | Se mantienen temporalmente como vía de respaldo. | 🟡 En proceso |
-| Autenticación centralizada | Authentik es la opción preferida, pero no está desplegado. | ⬜ Pendiente |
+| Autenticación centralizada | Authentik es la solución elegida y su despliegue está previsto a corto plazo. | ⬜ Pendiente |
 
 OpenClaw está instalado directamente sobre Ubuntu, no dentro de Docker.
 
@@ -124,4 +124,4 @@ El proxy inverso y HTTPS se utilizan dentro de la red privada. El porfolio es la
 ## Pendiente
 
 - 🟡 **Puertos web directos:** valorar su retirada cuando el acceso mediante proxy lleve suficiente tiempo estable.
-- ⬜ **Autenticación centralizada:** Authentik es la opción preferida para los servicios internos, pero todavía no está desplegado.
+- ⬜ **Autenticación centralizada:** desplegar Authentik como uno de los próximos cambios del homelab.
